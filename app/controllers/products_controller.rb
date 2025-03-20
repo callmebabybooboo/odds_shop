@@ -23,9 +23,13 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
+    if params[:product][:image_urls].present?
+      @product.image_urls = params[:product][:image_urls].split(",").map(&:strip)
+    end
+
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: "Product was successfully created." }
+        format.html { redirect_to @product, notice: "สร้างสินค้าเรียบร้อยแล้ว" }
         format.json { render :show, status: :created, location: @product }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -36,9 +40,13 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1 or /products/1.json
   def update
+    if params[:product][:image_urls].present?
+      @product.image_urls = params[:product][:image_urls].split(",").map(&:strip)
+    end
+
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to @product, notice: "Product was successfully updated." }
+        format.html { redirect_to @product, notice: "อัปเดตสินค้าเรียบร้อยแล้ว" }
         format.json { render :show, status: :ok, location: @product }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +73,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:name, :description, :price, :stock, :category_id, :image_url, :status, image: [])
+      params.require(:product).permit(:name, :description, :price, :stock, :category_id, :status, images: [], image_urls: [])
     end
 end

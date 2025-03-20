@@ -47,18 +47,16 @@
     <% end %>
   </div>
   <div class="my-5">
-    <strong class="block font-medium mb-2"><%= t("products.form.product_image") %></strong>
-    <div class="mb-3">
-      <%= form.label :images, "อัพโหลดจากเครื่องของคุณ", class: "block mb-1" %>
-      <%= form.file_field :images, multiple: true, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:images].any?}" %>
-      <% product.errors[:images].each do |message| %>
-        <p class="text-red-500 text-sm mt-1"><%= message %></p>
-      <% end %>
-    </div>
+    <strong class="block font-medium mb-1"><%= t("products.form.product_image") %></strong>
+    <%= form.label :images, "อัพโหลดรูปภาพ" %>
+    <%= form.file_field :images, multiple: true, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:images].any?}" %>
+    <% product.errors[:images].each do |message| %>
+      <p class="text-red-500 text-sm mt-1"><%= message %></p>
+    <% end %>
     <div>
-      <%= form.label :image_url, "แนบลิ้งค์", class: "block mb-1" %>
-      <%= form.text_field :image_url, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:image_url].any?}" %>
-      <% product.errors[:image_url].each do |message| %>
+      <%= form.label :image_urls, "แนบลิ้งค์รูปภาพ" %>
+      <%= form.text_area :image_urls, value: @product.image_urls&.join(", "), class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:image_urls].any?}" %>
+      <% product.errors[:image_urls].each do |message| %>
         <p class="text-red-500 text-sm mt-1"><%= message %></p>
       <% end %>
     </div>

@@ -5,15 +5,15 @@ class Product < ApplicationRecord
     validates :description, presence: true
     validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
     validates :stock, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-    
+
     belongs_to :category
     validates :category_id, presence: true
 
-    has_many_attached :image
-    # validates :image, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
-    # validates :image_url, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }, allow_blank: true
+    has_many_attached :images
     validate :image_or_url_present
-    
+    validate :validate_image_file
+    validate :validate_image_urls
+
     private
 
     def set_status_based_on_stock
@@ -21,25 +21,35 @@ class Product < ApplicationRecord
     end
 
     def image_or_url_present
-        # เช็คว่ามีรูปภาพ หรือ URL อย่างน้อย 1 รายการ
-        if image.blank? && image_url.blank?
-          errors.add(:base, "ต้องอัปโหลดรูปภาพหรือใส่ลิงก์รูปภาพอย่างน้อยหนึ่งรายการ")
+      unless images.attached? || image_urls.present?
+        errors.add(:base, "ต้องมีรูปภาพอย่างน้อย 1 รูป")
+      end
+    end
+
+    def validate_image_file
+      images.each do |image|
+        unless image.content_type.in?(%w[image/png image/jpg image/jpeg image/gif image/webp])
+          errors.add(:images, "รูปภาพต้องเป็นไฟล์ประเภท PNG, JPG, JPEG, GIF, หรือ WEBP เท่านั้น")
         end
-    
-        # เช็คว่า URL เป็นลิงก์ที่ถูกต้อง
-        if image_url.present? && !(image_url =~ URI::DEFAULT_PARSER.make_regexp(%w[http https]))
-          errors.add(:image_url, "ต้องเป็นลิงก์ที่ถูกต้อง (http หรือ https)")
+        if image.byte_size > 10.megabytes
+          errors.add(:images, "ไฟล์รูปภาพต้องมีขนาดไม่เกิน 10MB")
         end
-    
-        # เช็คว่าไฟล์ที่อัปโหลดเป็นรูปภาพ และขนาดไม่เกิน 5MB
-        image.each do |image|
-          if !image.content_type.in?(%w[image/png image/jpg image/jpeg])
-            errors.add(:images, "ต้องเป็นไฟล์รูปภาพนามสกุล .png, .jpg, .jpeg เท่านั้น")
-          end
-    
-          if image.byte_size > 5.megabytes
-            errors.add(:images, "ขนาดไฟล์ต้องไม่เกิน 5MB")
-          end
+      end
+    end
+
+    def validate_image_urls
+      return if image_urls.blank?
+
+      valid_image_extensions = %w[jpg jpeg png gif webp]
+
+      Array(image_urls).each do |url|
+        unless url.match?(URI::DEFAULT_PARSER.make_regexp(%w[http https]))
+          errors.add(:image_urls, "ต้องเป็นลิงก์ที่ถูกต้องและขึ้นต้นด้วย http หรือ https")
         end
+
+        unless valid_image_extensions.any? { |ext| url.downcase.end_with?(".#{ext}") }
+          errors.add(:image_urls, "ต้องเป็นลิงก์ที่ชี้ไปยังไฟล์รูปภาพ (png, jpg, jpeg, gif, webp) เท่านั้น")
+        end
+      end
     end
 end

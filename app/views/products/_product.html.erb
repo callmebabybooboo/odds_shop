@@ -17,11 +17,12 @@
   </div>
   <div>
     <strong class="block font-medium mb-1">Product Image:</strong>
-     <% if product.image.attached? %>
-        <% product.image.each do |image| %>
-          <%= image_tag image, class: "w-24 h-24 object-cover rounded-lg shadow-md" %>
-        <% end %>    <% elsif product.image_url.present? %>
-      <img src="<%= product.image_url %>" alt="Product Image" class="!w-32 !h-32 object-cover rounded-lg shadow-md mt-2">
+    <% if product.images.attached? %>
+      <% product.images.each do |image| %>
+        <%= image_tag image, class: "w-24 h-24 object-cover rounded-lg shadow-md" %>
+      <% end %>
+    <% elsif product.image_urls.present? %>
+      <img src="<%= product.image_urls %>" alt="Product Image" class="!w-32 !h-32 object-cover rounded-lg shadow-md mt-2">
     <% else %>
       <p class="text-gray-500">ไม่มีรูปภาพ</p>
     <% end %>
