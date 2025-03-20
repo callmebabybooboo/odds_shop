@@ -1,0 +1,57 @@
+th:
+  products:
+    titles:
+      index: "รายการสินค้า"
+      new: "เพิ่มสินค้าใหม่"
+      edit: "แก้ไขสินค้า"
+      show: "รายละเอียดสินค้า"
+    messages:
+      no_products: "ยังไม่มีสินค้าในระบบ"
+      product_created: "สินค้าถูกสร้างเรียบร้อยแล้ว"
+      product_updated: "สินค้าได้รับการอัปเดต"
+      product_deleted: "สินค้าถูกลบเรียบร้อยแล้ว"
+    form:
+      name: "ชื่อสินค้า"
+      description: "รายละเอียดสินค้า"
+      price: "ราคา"
+      stock: "จำนวนสินค้า"
+      product_image: "รูปภาพสินค้า"
+      category: "หมวดหมู่สินค้า"
+      option: "ตัวเลือกสินค้า"
+      status: "สถานะสินค้า"
+      submit: "บันทึกสินค้า"
+      cancel: "ยกเลิก"
+    actions:
+      new: "เพิ่มสินค้า"
+      edit: "แก้ไข"
+      show: "ดูรายละเอียด"
+      delete: "ลบ"
+      confirm_delete: "คุณแน่ใจหรือไม่ว่าต้องการลบสินค้า?"
+
+  activerecord:
+    errors:
+      models:
+        product:
+          attributes:
+            name:
+              blank: "กรุณากรอกชื่อสินค้า"
+            description:
+              blank: "กรุณากรอกรายละเอียดสินค้า"
+            price:
+              blank: "กรุณากรอกราคา"
+              not_a_number: "ราคาต้องเป็นตัวเลข"
+              greater_than_or_equal_to: "ราคาต้องมากกว่าหรือเท่ากับ 0"
+            stock:
+              blank: "กรุณากรอกจำนวนสินค้า"
+              not_a_number: "จำนวนสินค้าต้องเป็นตัวเลข"
+              greater_than_or_equal_to: "จำนวนสินค้าต้องมากกว่าหรือเท่ากับ 0"
+            category:
+              required: "กรุณาเลือกหมวดหมู่สินค้า"
+            category_id:
+              blank: "กรุณาเลือกหมวดหมู่สินค้า"
+            image:
+              invalid: "ต้องเป็นไฟล์นามสกุล png/jpg/jpeg เท่านั้น"
+            image_url:
+              invalid: "ต้องเป็น URL ที่ถูกต้อง"
+            status:
+              inclusion: "สถานะต้องเป็น 'พร้อมส่ง' หรือ 'สินค้าหมด'"

@@ -1,0 +1,73 @@
+<%= form_with(model: product, class: "contents") do |form| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2>ไม่สามารถบันทึกสินค้าได้ </h2>
+      <ul class="list-disc pl-5 mt-2 text-sm">
+        <% product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="my-5">
+    <%= form.label :name, t("products.form.name") %>
+    <%= form.text_field :name, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:name].any?}" %>
+    <% product.errors[:name].each do |message| %>
+      <p class="text-red-500 text-sm mt-1"><%= message %></p>
+    <% end %>
+  </div>
+  <div class="my-5">
+    <%= form.label :description, t("products.form.description") %>
+    <%= form.text_area :description, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:description].any?}" %>
+    <% product.errors[:description].each do |message| %>
+      <p class="text-red-500 text-sm mt-1"><%= message %></p>
+    <% end %>
+  </div>
+  <div class="my-5">
+    <%= form.label :price, t("products.form.price") %>
+    <%= form.number_field :price, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:price].any?}" %>
+    <% product.errors[:price].each do |message| %>
+      <p class="text-red-500 text-sm mt-1"><%= message %></p>
+    <% end %>
+  </div>
+  <div class="my-5">
+    <%= form.label :stock, t("products.form.stock") %>
+    <%= form.number_field :stock, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:stock].any?}" %>
+    <% product.errors[:stock].each do |message| %>
+      <p class="text-red-500 text-sm mt-1"><%= message %></p>
+    <% end %>
+  </div>
+  <div class="my-5">
+    <%= form.label :category_id, t("products.form.category") %>
+    <%= form.collection_select :category_id, Category.all, :id, :name, 
+      { include_blank: "เลือกหมวดหมู่" }, 
+      class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:category_id].any?}" %>
+    <% product.errors[:category_id].each do |message| %>
+      <p class="text-red-500 text-sm mt-1"><%= message %></p>
+    <% end %>
+  </div>
+  <div class="my-5">
+    <strong class="block font-medium mb-2"><%= t("products.form.product_image") %></strong>
+    <div class="mb-3">
+      <%= form.label :images, "อัพโหลดจากเครื่องของคุณ", class: "block mb-1" %>
+      <%= form.file_field :images, multiple: true, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:images].any?}" %>
+      <% product.errors[:images].each do |message| %>
+        <p class="text-red-500 text-sm mt-1"><%= message %></p>
+      <% end %>
+    </div>
+    <div>
+      <%= form.label :image_url, "แนบลิ้งค์", class: "block mb-1" %>
+      <%= form.text_field :image_url, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:image_url].any?}" %>
+      <% product.errors[:image_url].each do |message| %>
+        <p class="text-red-500 text-sm mt-1"><%= message %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="my-5">
+    <%= form.label :status, t("products.form.status") %>
+    <%= form.text_field :status, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500'}", readonly: true %>
+  </div>
+  <div class="inline">
+    <%= form.submit t("products.form.submit"), class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>
