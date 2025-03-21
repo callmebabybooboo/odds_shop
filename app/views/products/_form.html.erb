@@ -46,12 +46,21 @@
       <p class="text-red-500 text-sm mt-1"><%= message %></p>
     <% end %>
   </div>
-  <div class="my-5">
-    <%= form.label :images, t("products.form.product_image") %>
-    <%= form.file_field :images, multiple: true, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full #{'border-red-500' if product.errors[:images].any?}" %>
-    <% product.errors[:images].each do |message| %>
-      <p class="text-red-500 text-sm mt-1"><%= message %></p>
-    <% end %>
+  <div
+    data-controller="image-preview"
+    data-image-preview-target="container"
+    class="my-5" 
+    >
+    <strong class="block font-medium mb-1"><%= t("products.form.product_image") %></strong>
+    <%= form.label :images, "อัปโหลดรูปภาพ" %>
+    <%= form.file_field :images,
+      multiple: true,
+      class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+      data: {
+        image_preview_target: "input",
+        action: "change->image-preview#previewImages"
+      } %>
+    <div data-image-preview-target="preview" class="flex gap-2 mt-2"></div>
   </div>
   <div class="my-5">
     <%= form.label :status, t("products.form.status") %>
