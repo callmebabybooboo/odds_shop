@@ -12,6 +12,7 @@ class Product < ApplicationRecord
     has_many_attached :images
     validates :images, presence: { message: "ต้องแนบรูปอย่างน้อย 1 รูป" }
     validate :validate_image_file
+    validate :validate_images_count
 
     private
 
@@ -27,6 +28,12 @@ class Product < ApplicationRecord
         if image.byte_size > 10.megabytes
           errors.add(:images, "ไฟล์รูปภาพต้องมีขนาดไม่เกิน 10MB")
         end
+      end
+    end
+
+    def validate_images_count
+      if images.count > 5
+        errors.add(:images, "รูปภาพต้องไม่เกิน 5 รูป")
       end
     end
 end
