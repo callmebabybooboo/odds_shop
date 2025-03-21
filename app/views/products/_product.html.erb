@@ -21,11 +21,6 @@
       <% product.images.each do |image| %>
         <%= image_tag image, class: "w-24 h-24 object-cover rounded-lg shadow-md" %>
       <% end %>
-    <% elsif product.image_urls.present? %>
-    <% product.image_urls.each do |url| %>
-      <%= image_tag url.strip, class: "w-32 h-32 object-cover rounded-lg shadow-md" %>
-    <% end %>
-      <p class="text-gray-500">ไม่มีรูปภาพ</p>
     <% end %>
   </div>
   <div>

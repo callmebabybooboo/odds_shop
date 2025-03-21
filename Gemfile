@@ -67,3 +67,5 @@ group :test do
 end
 
 gem "rubocop", "~> 1.74"
+
+gem "image_processing", "~> 1.14"
