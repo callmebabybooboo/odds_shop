@@ -66,6 +66,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "rubocop", "~> 1.74"
+gem "rubocop", "~> 1.75"
 
 gem "image_processing", "~> 1.14"
